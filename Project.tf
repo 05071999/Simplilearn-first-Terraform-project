@@ -1,3 +1,6 @@
+#project Owner - Abhinash kumar Dubey
+#project for Create a infrastructure using terraform
+
 provider "aws" {
 
     access_key = "AKIAS62POD7PLXOBCVG3"
