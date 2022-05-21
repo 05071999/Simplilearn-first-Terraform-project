@@ -1,0 +1,76 @@
+provisioning
+#build custome images with tools like packer
+#use standard image 
+
+#Avinash Kumar Dubey projectkey
+
+
+provisioner Connection
+ssh
+provisioner "file" {
+    sorce   = "files/test.conf"
+    destination = "/etc/test.conf"
+    Connection {
+        type = "ssh"
+        user = "root"
+        password - var.root_password
+
+    }
+}
+
+Variables
+
+Variable "PRIV_KEY_PATH" {
+    default = "infi-inst_key"
+}
+Variable "PUB_KEY_PATH" {
+    default = "infi-inst_key.pub"
+}
+Variable "USER" {
+    default = "ubuntu"
+}
+
+Key pair & instance Resources
+
+resource "aws_key_pair" "project-key" {
+    key_name = projectkey"
+    public_key = file("projectkey.pub")
+}
+
+resource "aws_instance" "project1" {
+    ami = var.AMIS[var.REGION]
+    instance_type = "t2.micro"
+    availability_Zone = "var.ZONE1
+    key_name = aws_key_pair.project-key.key_name
+    vpc_security_group_ids = ["securitygroup id"]
+}
+
+provisioner
+
+provisioner "file" {
+    source = "web.sh"
+    destination = "/temp/web/sh"
+}
+Connection {
+    user = var.USER
+    private_key = file(var.PRIV_KEY_PATH)
+    host = self.public_ip    
+}
+
+Remote-exec provisioner
+
+provisioner "remote-exec" {
+    inline = [
+        "chmod u+x /temp/web.sh",
+        "sudo /temp/web.sh"
+    ]
+}
+
+VAR 
+
+Variable REGION {
+    default = "us-east-2"
+}
+Variable ZONE1 {
+    default = "AMIT
+}
